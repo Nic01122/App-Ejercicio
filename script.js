@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'guerrero 2.webp',
         'guerrero 3.webp',
         'la silla.webp',
-        'angula lateral extendido.webp',
+        'Angula Lateral Extendido.webp',
         'media torsión sentada.webp',
         'la piramide.webp',
         'postura del águila.webp',
@@ -396,4 +396,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- INICIALIZACIÓN ---
     cargarGaleria();
+
 });

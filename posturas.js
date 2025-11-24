@@ -23,6 +23,7 @@ const LISTA_DE_POSTURAS = [
     "Postura del Aguila.webp",
     "Postura de la Vela.webp",
     "Savasana Yoga.webp",
-    "Perro-Pajaro.webp"
+    "Perro-Pájaro.webp"
 
 ];
+

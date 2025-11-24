@@ -20,8 +20,9 @@ const LISTA_DE_POSTURAS = [
     "Angula Lateral Extendido.webp",
     "Media Torsión Sentada.webp",
     "La Piramide.webp",
-    "Postura del Águila.webp",
+    "Postura del Aguila.webp",
     "Postura de la Vela.webp",
     "Savasana Yoga.webp",
     "Perro-Pajaro.webp"
+
 ];

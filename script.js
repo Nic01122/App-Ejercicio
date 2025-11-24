@@ -1,23 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- CONFIGURACIÓN DE CONEXIÓN ---
+    // PEGA AQUÍ ABAJO LA URL QUE COPIASTE DEL SCRIPT DE GOOGLE (entre las comillas)
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwaHBN0B6zWWmOZIjiru1ki7wwJjwkqLAUCIElF4jfpHoB6E3RwF9GKPjjikNnL3UiJ/exec"; 
+
     // --- CONFIGURACIÓN INICIAL ---
     // El script ahora lee la variable `LISTA_DE_POSTURAS` del archivo `posturas.js`.
-    // Para añadir o quitar posturas, edita `posturas.js`.
-
-    // El script convierte la lista de nombres en la lista de objetos que usa la app,
-    // aplicando la regla de normalización para generar el nombre del archivo.
     const posturas = LISTA_DE_POSTURAS.map(nombre => {
-        // SIN NORMALIZACIÓN: El nombre en la lista es el nombre del archivo.
-        const nombreSinExtension = nombre.split('.')[0]; // "Postura del Triángulo.webp" -> "Postura del Triángulo"
-        const id = nombreSinExtension.toLowerCase().replace(/\s+/g, '-'); // Creamos un ID único para uso interno
+        const nombreSinExtension = nombre.split('.')[0]; 
+        const id = nombreSinExtension.toLowerCase().replace(/\s+/g, '-'); 
         return { id: id, nombre: nombreSinExtension, img: nombre };
     });
 
     // --- SONIDOS ---
-    // Asegúrate de que los nombres de archivo coincidan con los que tienes en la carpeta "Sonidos"
-    const SONIDO_INICIO_RUTINA = new Audio('Sonidos/tiktak1 5 segundos.mp3'); // Suena al empezar la rutina (5 segundos)
-    const SONIDO_INICIO_EJERCICIO = new Audio('Sonidos/japan-eas-alarma 2 segundos.mp3'); // Sonido corto para inicio de cada ejercicio
-    const SONIDO_TRANSICION = new Audio('Sonidos/relaxing-guitar-loop-10 segundos.mp3');         // Suena entre ejercicios 10 segundo
-    const SONIDO_FIN_EJERCICIO = new Audio('Sonidos/alarm-7 segundos.mp3');    // Suena 7 segundos antes de terminar un ejercicio
+    const SONIDO_INICIO_RUTINA = new Audio('Sonidos/tiktak1 5 segundos.mp3'); 
+    const SONIDO_INICIO_EJERCICIO = new Audio('Sonidos/japan-eas-alarma 2 segundos.mp3'); 
+    const SONIDO_TRANSICION = new Audio('Sonidos/relaxing-guitar-loop-10 segundos.mp3');          
+    const SONIDO_FIN_EJERCICIO = new Audio('Sonidos/alarm-7 segundos.mp3');    
 
     const FOTOS_PATH = './FOTOSPOSTURAS/';
 
@@ -42,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressTextEl = document.getElementById('progress-text');
 
     // --- ESTADO DE LA APP ---
-    let seleccionTemporal = []; // {id: 'plancha', bilateral: false, extraTime: 0}
+    let seleccionTemporal = []; 
     let rutinaActiva = false;
     let isPaused = false;
     let ejercicioActualIndex = 0;
@@ -72,17 +70,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 <img src="${FOTOS_PATH}${postura.img}" alt="${postura.nombre}" loading="lazy">
                 <p>${postura.nombre}</p>
             `;
-            // El clic en la imagen selecciona/deselecciona la postura
+            
             div.querySelector('img').addEventListener('click', () => toggleSeleccion(postura.id, div));
             div.querySelector('p').addEventListener('click', () => toggleSeleccion(postura.id, div));
 
-            // El clic en el botón 2x marca/desmarca como bilateral
             div.querySelector('.bilateral-btn').addEventListener('click', (e) => {
-                e.stopPropagation(); // Evita que el clic se propague a la tarjeta
+                e.stopPropagation(); 
                 toggleBilateral(postura.id, div);
             });
 
-            // El clic en el botón +10s añade tiempo
             div.querySelector('.time-btn').addEventListener('click', (e) => {
                 e.stopPropagation();
                 addExtraTime(postura.id, div);
@@ -95,10 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Marcar/desmarcar una postura para la rutina
     function toggleSeleccion(id, element) {
         const index = seleccionTemporal.findIndex(p => p.id === id);
-        if (index > -1) { // Si ya está seleccionada, la quitamos
+        if (index > -1) { 
             seleccionTemporal.splice(index, 1);
             element.classList.remove('selected');
-            element.classList.remove('bilateral-selected'); // También reseteamos el bilateral
+            element.classList.remove('bilateral-selected'); 
         } else {
             seleccionTemporal.push({ id: id, bilateral: false, extraTime: 0 });
             element.classList.add('selected');
@@ -109,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function toggleBilateral(id, element) {
         const seleccion = seleccionTemporal.find(p => p.id === id);
-        if (seleccion) { // Solo se puede marcar como bilateral si está seleccionada
+        if (seleccion) { 
             seleccion.bilateral = !seleccion.bilateral;
             element.classList.toggle('bilateral-selected');
             actualizarNumerosDeOrden();
@@ -139,8 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (rutinaActiva) { // Evita iniciar una rutina si ya hay una activa
-            alert('¡Debes seleccionar al menos una postura para comenzar!');
+        if (rutinaActiva) { 
+            alert('¡Ya hay una rutina en curso!');
             return;
         }
 
@@ -148,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
         isPaused = false;
         ejercicioActualIndex = 0;
         
-        // El sonido de inicio de rutina se activa AL PRINCIPIO de la preparación.
         SONIDO_INICIO_RUTINA.play();
         iniciarContador('Prepárate', 5, mostrarEjercicioActual);
     }
@@ -165,10 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const tiempoBase = parseInt(timeInput.value, 10);
         tiempoRestante = tiempoBase + (posturaActual.extraTime || 0);
-        timerEl.textContent = tiempoRestante || 30; // Si el valor no es un número, usa 30 por defecto
+        timerEl.textContent = tiempoRestante || 30; 
 
-        // Iniciar cuenta atrás
-        clearInterval(intervalID); // Limpiar cualquier intervalo anterior
+        clearInterval(intervalID); 
         intervalID = setInterval(actualizarCronometro, 1000);
     }
 
@@ -176,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function actualizarCronometro() {
         tiempoRestante--;
         timerEl.textContent = tiempoRestante;
-        // El sonido de fin se dispara 7 segundos ANTES de que termine el ejercicio.
+        
         if (tiempoRestante === 7) {
             SONIDO_FIN_EJERCICIO.play();
         }
@@ -187,14 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 6. Pasar al siguiente ejercicio o finalizar
     function siguienteEjercicio() {
-        if (!rutinaActiva) return; // CORRECCIÓN: Si la rutina ya no está activa, no hagas nada.
+        if (!rutinaActiva) return; 
 
         clearInterval(intervalID);
         const rutinaFinal = construirRutinaFinal();
-        ejercicioActualIndex++; // Apuntamos al siguiente
+        ejercicioActualIndex++; 
 
         if (ejercicioActualIndex < rutinaFinal.length) {
-            // El sonido de transición se activa AL INICIO de la transición.
             SONIDO_TRANSICION.play();
             const siguientePostura = rutinaFinal[ejercicioActualIndex];
             iniciarContador(`Siguiente: ${siguientePostura.nombre}`, 10, mostrarEjercicioActual);
@@ -203,11 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Nueva función para manejar los contadores de preparación y transición
     function iniciarContador(mensaje, duracion, callback) {
         setupScreen.classList.add('hidden');
-        routineScreen.classList.add('hidden'); // Ocultamos todo
-        transitionScreen.classList.remove('hidden'); // Mostramos el overlay
+        routineScreen.classList.add('hidden'); 
+        transitionScreen.classList.remove('hidden'); 
 
         const siguientePostura = construirRutinaFinal()[ejercicioActualIndex] || seleccionTemporal[0];
         transitionImage.src = `${FOTOS_PATH}${siguientePostura.img}`;
@@ -221,27 +213,81 @@ document.addEventListener('DOMContentLoaded', () => {
             tiempo--;
             transitionTimer.textContent = tiempo;
             if (tiempo <= 0) {
-                SONIDO_INICIO_EJERCICIO.play(); // Todos los ejercicios empiezan con el sonido corto.
+                SONIDO_INICIO_EJERCICIO.play(); 
                 clearInterval(transitionIntervalID);
                 transitionScreen.classList.add('hidden');
-                routineScreen.classList.remove('hidden'); // Mostramos la pantalla de rutina
-                callback(); // Ejecutamos la acción siguiente (mostrar ejercicio)
+                routineScreen.classList.remove('hidden'); 
+                callback(); 
             }
         }, 1000);
     }
 
-    // 7. Finalizar la rutina y volver al inicio
+    // 7. Finalizar la rutina (MODIFICADA PARA GUARDAR)
     function finalizarRutina(mensaje) {
         rutinaActiva = false;
         isPaused = false;
-        detenerTodosLosSonidos(); // Luego detenemos los sonidos
-        alert(mensaje);
+        detenerTodosLosSonidos();
+
+        // Preguntar al usuario si quiere guardar
+        let quiereGuardar = confirm(mensaje + "\n\n¿Quieres guardar este registro en tu historial?");
+
+        if (quiereGuardar) {
+            guardarRutinaEnDrive();
+        } else {
+            resetearInterfaz();
+        }
+    }
+
+    // Función auxiliar para limpiar la pantalla (se usa al terminar o al guardar)
+    function resetearInterfaz() {
         seleccionTemporal = [];
         routineScreen.classList.add('hidden');
         setupScreen.classList.remove('hidden');
         actualizarDuracionTotal();
-        cargarGaleria(); // Recarga la galería para quitar las selecciones
+        cargarGaleria(); // Recarga la galería para quitar las selecciones visuales
     }
+
+    // --- FUNCIÓN PARA ENVIAR DATOS A GOOGLE SHEETS ---
+    function guardarRutinaEnDrive() {
+        // 1. Obtener la lista real de ejercicios realizados
+        const rutinaHecha = construirRutinaFinal();
+        const nombresEjercicios = rutinaHecha.map(p => p.nombre).join(", ");
+
+        // 2. Obtener la duración
+        let duracionTexto = totalDurationEl.textContent.replace('Duración: ', '');
+
+        // 3. Preguntar sensación
+        let sensacion = prompt("¿Cómo te sientes? (Ej: Bien, Cansado, Energético)");
+        if (sensacion === null) sensacion = "-"; 
+
+        // 4. Empaquetar los datos
+        const datos = {
+            duracion: duracionTexto,
+            ejercicios: nombresEjercicios,
+            sensacion: sensacion
+        };
+
+        // 5. Enviar al Portero (Google Script)
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors", 
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(datos)
+        })
+        .then(() => {
+            alert("✅ ¡Rutina guardada con éxito!");
+            resetearInterfaz();
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("❌ Hubo un error de conexión al intentar guardar.");
+            resetearInterfaz();
+        });
+    }
+
+    // --- Funciones Auxiliares ---
 
     function construirRutinaFinal() {
         const rutinaFinal = [];
@@ -259,7 +305,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function actualizarNumerosDeOrden() {
         let ordenActual = 1;
-        // Primero, limpiar todos los números
         document.querySelectorAll('.selection-order').forEach(el => el.textContent = '');
 
         seleccionTemporal.forEach(sel => {
@@ -315,30 +360,32 @@ document.addEventListener('DOMContentLoaded', () => {
         isPaused = !isPaused;
 
         if (isPaused) {
-            // Pausamos el intervalo que esté activo (el de ejercicio o el de transición)
             detenerTodosLosSonidos();
             clearInterval(intervalID);
             clearInterval(transitionIntervalID);
             pauseBtn.textContent = 'Reanudar';
         } else {
             pauseBtn.textContent = 'Pausar';
-            // Reanudamos el intervalo que corresponda
             if (transitionScreen.classList.contains('hidden')) {
-                // Si la pantalla de transición está oculta, estamos en un ejercicio
                 intervalID = setInterval(actualizarCronometro, 1000);
             } else {
-                // Si no, estamos en una transición, pero es más complejo reanudarla.
-                // Por simplicidad, al reanudar en transición, la reiniciamos.
-                // (Una lógica más compleja guardaría el tiempo restante de la transición)
-                // La lógica actual ya maneja esto al no tener un `else` complejo. El usuario simplemente verá el contador estático hasta que reanude.
-                // Para reanudar el contador de transición, necesitaríamos una función separada. Por ahora, la pausa funciona mejor durante el ejercicio.
-                // Vamos a reanudar el contador de transición.
                 const tiempoActualTransicion = parseInt(transitionTimer.textContent, 10);
                 if (tiempoActualTransicion > 0) {
-                    // La función iniciarContador ya está en marcha, solo necesitamos reiniciar su intervalo.
-                    // Para simplificar, la pausa funcionará mejor durante el ejercicio.
-                    // La lógica actual ya detiene el contador de transición. Al reanudar, el usuario debe esperar.
-                    // Para una mejor UX, reanudaremos el contador de ejercicio.
+                     // Nota: Simplificación para reanudar transición
+                     // En una implementación perfecta, re-llamaríamos a iniciarContador con el tiempo restante.
+                     // Pero dado que iniciarContador configura el DOM, solo reiniciamos el intervalo simple aquí.
+                     transitionIntervalID = setInterval(() => {
+                        let t = parseInt(transitionTimer.textContent);
+                        t--;
+                        transitionTimer.textContent = t;
+                        if (t <= 0) {
+                            SONIDO_INICIO_EJERCICIO.play();
+                            clearInterval(transitionIntervalID);
+                            transitionScreen.classList.add('hidden');
+                            routineScreen.classList.remove('hidden');
+                            mostrarEjercicioActual(); 
+                        }
+                    }, 1000);
                 }
             }
         }
@@ -348,10 +395,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const sonidos = [SONIDO_INICIO_RUTINA, SONIDO_INICIO_EJERCICIO, SONIDO_TRANSICION, SONIDO_FIN_EJERCICIO];
         sonidos.forEach(sonido => {
             sonido.pause();
-            sonido.currentTime = 0; // Reinicia el audio al principio
+            sonido.currentTime = 0; 
         });
     }
-
 
     function filtrarGaleria() {
         const textoBusqueda = searchInput.value.toLowerCase();

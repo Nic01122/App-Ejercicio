@@ -1,42 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- CONFIGURACIÓN INICIAL ---
-    // --- LISTA DE IMÁGENES ---
-    // Para añadir una nueva postura, simplemente agrega el nombre del archivo de imagen a esta lista.
-    // El nombre de la postura se generará automáticamente.
-    const NOMBRES_DE_ARCHIVOS = [
-        'SENTADILLA.webp',
-        'zancadas.webp',
-        'puente de glúteos.webp',
-        'postura del triángulo.webp',
-        'plancha con manos.webp',
-        'postura del sabio.webp',
-        'superman.webp',
-        'plancha lateral.webp',
-        'plancha isométrica.webp',
-        'guerrero 1.webp',
-        'guerrero 2.webp',
-        'guerrero 3.webp',
-        'la silla.webp',
-        'Angula Lateral Extendido.webp',
-        'media torsión sentada.webp',
-        'la piramide.webp',
-        'postura del águila.webp',
-        'postura de la vela.webp',
-        'media torsión sentada.webp', // Nota: Este nombre de archivo está duplicado.
-        'savasana yoga.webp',
-        'perro-boca-abajo.webp'
-        //'Postura del Águila.PNG',
-        //'LANCHA CNOS.PNG',
-        //'utthita-trikonasana.jpg'
-        // Añade aquí tu nueva imagen, por ejemplo: 'nueva-postura.png'
-    ];
+    // El script ahora lee la variable `LISTA_DE_POSTURAS` del archivo `posturas.js`.
+    // Para añadir o quitar posturas, edita `posturas.js`.
 
-    // El script convierte la lista de archivos en la lista de posturas que usa la app.
-    const posturas = NOMBRES_DE_ARCHIVOS.map(archivo => {
-        const id = archivo.split('.')[0]; // 'plancha.jpg' -> 'plancha'
-        // 'perro-pajaro' -> 'Perro pajaro' -> 'Perro Pájaro'
-        const nombre = id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-        return { id: id, nombre: nombre, img: archivo };
+    // El script convierte la lista de nombres en la lista de objetos que usa la app,
+    // aplicando la regla de normalización para generar el nombre del archivo.
+    const posturas = LISTA_DE_POSTURAS.map(nombre => {
+        // SIN NORMALIZACIÓN: El nombre en la lista es el nombre del archivo.
+        const nombreSinExtension = nombre.split('.')[0]; // "Postura del Triángulo.webp" -> "Postura del Triángulo"
+        const id = nombreSinExtension.toLowerCase().replace(/\s+/g, '-'); // Creamos un ID único para uso interno
+        return { id: id, nombre: nombreSinExtension, img: nombre };
     });
 
     // --- SONIDOS ---
@@ -396,6 +369,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- INICIALIZACIÓN ---
     cargarGaleria();
-
 });
-

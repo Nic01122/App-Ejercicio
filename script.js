@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Para añadir una nueva postura, simplemente agrega el nombre del archivo de imagen a esta lista.
     // El nombre de la postura se generará automáticamente.
     const NOMBRES_DE_ARCHIVOS = [
-        'sentadilla.webp',
+        'SENTADILLA.webp',
         'zancadas.webp',
         'puente de glúteos.webp',
         'postura del triángulo.webp',
@@ -398,3 +398,4 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarGaleria();
 
 });
+

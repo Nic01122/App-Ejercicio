@@ -4,11 +4,11 @@
 // incluyendo mayúsculas, espacios y la extensión .webp.
 
 const LISTA_DE_POSTURAS = [
-    "Sentadilla.webp",
+    "Sentadillas.webp",
     "Zancadas.webp",
     "Puente de Glúteos.webp",
     "Postura del Triángulo.webp",
-    "Plancha con Manos.webp",
+    "PLANCHA CON MANOS.webp",
     "Postura del Sabio.webp",
     "Superman.webp",
     "Plancha Lateral.webp",
@@ -26,6 +26,7 @@ const LISTA_DE_POSTURAS = [
     "Perro-Pájaro.webp"
 
 ];
+
 
 
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Rutina de Yoga</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Pantalla de Configuración de Rutina -->
+    <div id="setup-screen">
+        <div class="setup-header">
+            <h1>Elige tu Rutina</h1>
+            <div class="header-controls">
+                <label for="time-per-pose">Segundos:</label>
+                <input type="number" id="time-per-pose" value="30" min="5">
+                <input type="search" id="search-input" placeholder="Buscar postura...">
+                <span id="total-duration">Duración: 00:00</span>
+                <button id="start-routine-btn">Comenzar Rutina</button>
+            </div>
+        </div>
+
+        <div id="posture-gallery">
+            <p id="loading-message">Cargando posturas...</p>
+            <!-- Las posturas se cargarán aquí con JavaScript -->
+        </div>
+
+    </div>
+
+    <!-- Pantalla de Rutina en Curso -->
+    <div id="routine-screen" class="hidden">
+        <img id="pose-image" src="" alt="Postura actual">
+        <p id="progress-text">Postura 1 de 5</p>
+        <h2 id="pose-name">Nombre de la Postura</h2>
+        <div id="timer">30</div>
+        <div class="routine-buttons">
+            <button id="pause-routine-btn">Pausar</button>
+            <button id="end-routine-btn">Terminar</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de Transición/Preparación (Overlay) -->
+    <div id="transition-screen" class="hidden">
+        <div id="transition-message">Prepárate</div>
+        <img id="transition-image" src="" alt="Siguiente postura">
+        <div id="transition-timer">3</div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

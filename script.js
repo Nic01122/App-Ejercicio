@@ -227,6 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rutinaActiva = false;
         isPaused = false;
         detenerTodosLosSonidos();
+        SONIDO_INICIO_RUTINA.play(); // ¡Añadimos el sonido de finalización!
 
         // Preguntar al usuario si quiere guardar
         let quiereGuardar = confirm(mensaje + "\n\n¿Quieres guardar este registro en tu historial?");
@@ -416,3 +417,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- INICIALIZACIÓN ---
     cargarGaleria();
 });
+
